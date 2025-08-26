@@ -1,0 +1,27 @@
+{
+  "name": "Navin Kumar - Comedian & Strategist",
+  "short_name": "Navin Kumar",
+  "description": "Professional comedian, brand strategist, creative writer, and corporate consultant. Transforming workplace culture through humor and strategic thinking.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#d6a99d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://public-frontend-cos.metadl.com/mgx/img/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://public-frontend-cos.metadl.com/mgx/img/favicon.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "business", "lifestyle"],
+  "lang": "en-US",
+  "scope": "./"
+}

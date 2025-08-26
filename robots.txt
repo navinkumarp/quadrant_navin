@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://navin-kumar-comedian.github.io/sitemap.xml

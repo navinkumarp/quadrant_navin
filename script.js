@@ -44,34 +44,44 @@ function smoothScrollTo(element) {
     });
 }
 
-// Add loading animation
+// Enhanced performance-optimized loading animation
 window.addEventListener('load', function() {
     const header = document.querySelector('.header');
     const mainContainer = document.querySelector('.quadrant-container');
     
+    // Performance timing
+    const loadTime = performance.now() - performanceMonitor.startTime;
+    performanceMonitor.logMetric('page_load_time', loadTime);
+    
     if (header) {
-        // Animate header
+        // GPU-accelerated header animation
         header.style.opacity = '0';
-        header.style.transform = 'translateY(-50px)';
+        header.style.transform = 'translate3d(0, -50px, 0)';
+        header.style.backfaceVisibility = 'hidden';
         
-        setTimeout(() => {
-            header.style.transition = 'all 1s ease';
-            header.style.opacity = '1';
-            header.style.transform = 'translateY(0)';
-        }, 200);
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                header.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                header.style.opacity = '1';
+                header.style.transform = 'translate3d(0, 0, 0)';
+            }, 200);
+        });
     }
     
     if (mainContainer) {
-        // Animate main quadrants
+        // GPU-accelerated quadrant animation with stagger
         setTimeout(() => {
             mainContainer.style.opacity = '0';
-            mainContainer.style.transform = 'scale(0.9)';
+            mainContainer.style.transform = 'translate3d(0, 0, 0) scale3d(0.95, 0.95, 1)';
+            mainContainer.style.backfaceVisibility = 'hidden';
             
-            setTimeout(() => {
-                mainContainer.style.transition = 'all 0.8s ease';
-                mainContainer.style.opacity = '1';
-                mainContainer.style.transform = 'scale(1)';
-            }, 100);
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    mainContainer.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    mainContainer.style.opacity = '1';
+                    mainContainer.style.transform = 'translate3d(0, 0, 0) scale3d(1, 1, 1)';
+                }, 100);
+            });
         }, 600);
     }
 });
@@ -164,7 +174,17 @@ class QuadrantApp {
         
         const section = quadrant.getAttribute('data-section');
         if (section) {
-            this.showSubQuadrants(section);
+            // Scroll to the section instead of showing sub-quadrants
+            const targetSection = document.getElementById(`${section}-sub`);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Update breadcrumb navigation
+                this.updateBreadcrumb(section);
+            }
             
             // Analytics tracking
             if (typeof window.gtag === 'function') {
@@ -182,16 +202,26 @@ class QuadrantApp {
         this.isTransitioning = true;
         this.currentSection = section;
         
+        // Update breadcrumb navigation
+        this.updateBreadcrumb(section);
+        
         const transitionStart = performance.now();
         
-        // Use requestAnimationFrame for smooth animations
+        // Enhanced transition with quadrant-specific effects
         requestAnimationFrame(() => {
             try {
-                // Hide main quadrants with animation
+                // Hide main quadrants with staggered animation
                 const mainQuadrants = document.getElementById('mainQuadrants');
                 if (mainQuadrants) {
-                    mainQuadrants.style.opacity = '0';
-                    mainQuadrants.style.transform = 'translateY(-20px)';
+                    const quadrants = mainQuadrants.querySelectorAll('.quadrant');
+                    
+                    // Animate each quadrant out individually
+                    quadrants.forEach((quad, index) => {
+                        setTimeout(() => {
+                            quad.style.transform = 'scale(0.8) rotateY(15deg)';
+                            quad.style.opacity = '0';
+                        }, index * 50);
+                    });
                     
                     setTimeout(() => {
                         mainQuadrants.style.display = 'none';
@@ -199,7 +229,7 @@ class QuadrantApp {
                         
                         performanceMonitor.logMetric('section_transition_time', 
                             performance.now() - transitionStart);
-                    }, 300);
+                    }, 400);
                 } else {
                     console.error('❌ Main quadrants element not found');
                     this.isTransitioning = false;
@@ -219,22 +249,39 @@ class QuadrantApp {
             container.setAttribute('aria-hidden', 'true');
         });
         
-        // Show the selected sub-quadrant container
+        // Show the selected sub-quadrant container with enhanced animation
         const targetContainer = document.getElementById(`${section}-sub`);
         
         if (targetContainer) {
             targetContainer.style.display = 'block';
             targetContainer.setAttribute('aria-hidden', 'false');
             
-            // Animate in
+            // Enhanced entrance animation
+            targetContainer.style.opacity = '0';
+            targetContainer.style.transform = 'translateY(30px) scale(0.95)';
+            
             requestAnimationFrame(() => {
+                targetContainer.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
                 targetContainer.style.opacity = '1';
-                targetContainer.style.transform = 'translateY(0)';
+                targetContainer.style.transform = 'translateY(0) scale(1)';
+                
+                // Staggered sub-quadrant animation
+                const subQuads = targetContainer.querySelectorAll('.sub-quadrant');
+                subQuads.forEach((quad, index) => {
+                    quad.style.opacity = '0';
+                    quad.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        quad.style.transition = 'all 0.4s ease-out';
+                        quad.style.opacity = '1';
+                        quad.style.transform = 'translateY(0)';
+                    }, 200 + (index * 100));
+                });
                 
                 // Focus management for accessibility
                 const firstFocusable = targetContainer.querySelector('h2, .back-button');
                 if (firstFocusable) {
-                    firstFocusable.focus();
+                    setTimeout(() => firstFocusable.focus(), 300);
                 }
                 
                 this.isTransitioning = false;
@@ -256,6 +303,9 @@ class QuadrantApp {
         
         this.isTransitioning = true;
         this.currentSection = null;
+        
+        // Reset breadcrumb to home
+        this.updateBreadcrumb(null);
         
         // Hide all sub-quadrant containers with animation
         const allSubContainers = document.querySelectorAll('.sub-quadrant-container');
@@ -299,6 +349,37 @@ class QuadrantApp {
             top: 0,
             behavior: 'smooth'
         });
+    }
+    
+    updateBreadcrumb(section) {
+        const breadcrumb = document.querySelector('.breadcrumb');
+        if (!breadcrumb) return;
+        
+        const sectionNames = {
+            'standup': 'Stand-up Comedy',
+            'branding': 'Branding',
+            'writing': 'Writing',
+            'corporates': 'Corporate Services'
+        };
+        
+        if (!section) {
+            // Home breadcrumb
+            breadcrumb.innerHTML = `
+                <li class="breadcrumb-item active">
+                    <span>Home</span>
+                </li>
+            `;
+        } else {
+            // Section breadcrumb
+            breadcrumb.innerHTML = `
+                <li class="breadcrumb-item">
+                    <a onclick="app.showMainQuadrants()">Home</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <span>${sectionNames[section] || section}</span>
+                </li>
+            `;
+        }
     }
 
     setupAccessibility() {
@@ -474,10 +555,169 @@ class QuadrantApp {
     }
 }
 
-// Initialize the application
+// Enhanced Innovative Features
+class InnovativeFeatures {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        this.setupScrollProgress();
+        this.setupFloatingContact();
+        this.setupParallaxElements();
+        this.setupTooltips();
+        this.setupPortfolioShowcase();
+    }
+    
+    setupScrollProgress() {
+        const progressBar = document.getElementById('scrollProgress');
+        if (!progressBar) return;
+        
+        const updateProgress = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / documentHeight) * 100;
+            
+            progressBar.style.width = `${Math.min(progress, 100)}%`;
+        };
+        
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+    }
+    
+    setupFloatingContact() {
+        const floatingBtn = document.querySelector('.floating-contact');
+        if (!floatingBtn) return;
+        
+        floatingBtn.addEventListener('click', () => {
+            // Trigger contact action - could open modal or navigate to contact
+            this.showContactOptions();
+        });
+        
+        // Hide/show based on scroll position
+        let lastScrollY = 0;
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 200) {
+                floatingBtn.style.opacity = '1';
+                floatingBtn.style.visibility = 'visible';
+            } else {
+                floatingBtn.style.opacity = '0';
+                floatingBtn.style.visibility = 'hidden';
+            }
+            
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+    }
+    
+    showContactOptions() {
+        // Create dynamic contact modal
+        const modal = document.createElement('div');
+        modal.className = 'contact-modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <h3>Get in Touch</h3>
+                <div class="contact-options">
+                    <a href="https://www.instagram.com/comedian_navin" target="_blank" class="contact-option">
+                        📱 Instagram
+                    </a>
+                    <a href="https://www.linkedin.com/in/navinkumar91/" target="_blank" class="contact-option">
+                        💼 LinkedIn
+                    </a>
+                    <a href="mailto:contact@navinkumar.com" class="contact-option">
+                        📧 Email
+                    </a>
+                </div>
+                <button class="close-modal">×</button>
+            </div>
+        `;
+        
+        // Add modal styles
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8); z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(10px);
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Close functionality
+        modal.querySelector('.close-modal').onclick = () => modal.remove();
+        modal.onclick = (e) => e.target === modal && modal.remove();
+    }
+    
+    setupParallaxElements() {
+        const parallaxElements = document.querySelectorAll('.parallax-element');
+        if (parallaxElements.length === 0) return;
+        
+        const handleParallax = () => {
+            const scrollY = window.pageYOffset;
+            
+            parallaxElements.forEach((element, index) => {
+                const speed = 0.5 + (index * 0.1);
+                const yPos = -(scrollY * speed);
+                element.style.transform = `translate3d(0, ${yPos}px, 0) rotate(${45 + scrollY * 0.1}deg)`;
+            });
+        };
+        
+        window.addEventListener('scroll', handleParallax, { passive: true });
+    }
+    
+    setupTooltips() {
+        const tooltips = document.querySelectorAll('.tooltip');
+        
+        tooltips.forEach(tooltip => {
+            tooltip.addEventListener('mouseenter', () => {
+                // Enhanced tooltip positioning logic could go here
+            });
+        });
+    }
+    
+    setupPortfolioShowcase() {
+        // Add portfolio navigation functionality
+        const portfolioSection = document.getElementById('portfolioShowcase');
+        if (!portfolioSection) return;
+        
+        // Portfolio item interactions
+        const portfolioItems = portfolioSection.querySelectorAll('.portfolio-item');
+        
+        portfolioItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const action = item.querySelector('.portfolio-cta')?.dataset.action;
+                
+                if (action) {
+                    this.handlePortfolioAction(action, item);
+                }
+            });
+        });
+    }
+    
+    handlePortfolioAction(action, item) {
+        switch (action) {
+            case 'view-gallery':
+                console.log('Opening performance gallery...');
+                break;
+            case 'view-reels':
+                window.open('https://www.instagram.com/comedian_navin', '_blank');
+                break;
+            case 'learn-framework':
+                // Could navigate to framework explanation
+                console.log('Explaining Quadrant Framework...');
+                break;
+            default:
+                console.log(`Action: ${action}`);
+        }
+    }
+}
+
+// Initialize all applications
 const app = new QuadrantApp();
+const innovativeFeatures = new InnovativeFeatures();
 
 // Export for testing purposes
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = QuadrantApp;
+    module.exports = { QuadrantApp, InnovativeFeatures };
 }

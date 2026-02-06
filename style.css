@@ -388,8 +388,9 @@ body {
     height: 70vh;
     
     /* Perfect Centering Within Wrapper */
-    max-width: 1200px;
+    max-width: min(1200px, calc(100vw - 32px));
     width: 100%;
+    aspect-ratio: 16/9; /* Reference sizing from reference.png */
     
     /* Visual Enhancement */
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1411,6 +1412,8 @@ body {
     grid-template-rows: 1fr 1fr;
     gap: 2px;
     max-width: 600px;
+    width: 100%;
+    aspect-ratio: 16/9; /* Reference sizing from reference.png */
     margin: 0 auto;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;

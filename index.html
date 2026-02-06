@@ -1203,7 +1203,7 @@
             };
             
             // Send to both Formspree and Google Sheets simultaneously
-            Promise.all([
+            Promise.allSettled([
                 // Send to Formspree
                 fetch('https://formspree.io/f/maqdwkzb', {
                     method: 'POST',
@@ -1218,24 +1218,34 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(sheetData)
+                    body: JSON.stringify(sheetData),
+                    mode: 'no-cors'
                 })
-            ]).then(responses => {
-                const [formspreeResponse, sheetsResponse] = responses;
+            ]).then(async (results) => {
+                const [formspreeResult, sheetsResult] = results;
                 
-                if (formspreeResponse.ok || sheetsResponse.ok) {
+                // Log detailed results
+                console.log('Formspree result:', formspreeResult);
+                console.log('Google Sheets result:', sheetsResult);
+                
+                // Check if at least one succeeded
+                const formspreeSuccess = formspreeResult.status === 'fulfilled' && formspreeResult.value.ok;
+                const sheetsSuccess = sheetsResult.status === 'fulfilled';
+                
+                if (formspreeSuccess || sheetsSuccess) {
                     alert('Thank you for your interest! We\'ll notify you when the show comes to ' + city + '!');
                     event.target.reset(); // Clear the form
                     
-                    // Log success status
-                    console.log('Formspree success:', formspreeResponse.ok);
-                    console.log('Google Sheets success:', sheetsResponse.ok);
+                    console.log('✅ Formspree success:', formspreeSuccess);
+                    console.log('✅ Google Sheets success:', sheetsSuccess);
                 } else {
                     alert('There was an error submitting your request. Please try again.');
+                    console.error('❌ Both submissions failed');
+                    console.error('Formspree error:', formspreeResult);
+                    console.error('Sheets error:', sheetsResult);
                 }
             }).catch(error => {
                 console.error('Form submission error:', error);
-                // Try to submit to at least one service if the other fails
                 alert('Your request has been submitted, though there may have been a partial error.');
             });
             

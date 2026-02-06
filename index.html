@@ -1195,32 +1195,53 @@
             // Log the data (you can see this in browser console)
             console.log('Form submitted:', { email, city });
             
-            // Option 1: Send to Formspree webhook (now active)
-            fetch('https://formspree.io/f/maqdwkzb', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
-                if (response.ok) {
+            // Prepare data for Google Sheets
+            const sheetData = {
+                email: email,
+                city: city,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Send to both Formspree and Google Sheets simultaneously
+            Promise.all([
+                // Send to Formspree
+                fetch('https://formspree.io/f/maqdwkzb', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }),
+                // Send to Google Sheets
+                fetch('https://script.google.com/macros/s/AKfycbzCqlE0IUcklA7zs-M2YToXqckmxn3akMoApRNfFcI7eyzg1FiPEtzafgLjSKJyESoM/exec', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(sheetData)
+                })
+            ]).then(responses => {
+                const [formspreeResponse, sheetsResponse] = responses;
+                
+                if (formspreeResponse.ok || sheetsResponse.ok) {
                     alert('Thank you for your interest! We\'ll notify you when the show comes to ' + city + '!');
                     event.target.reset(); // Clear the form
+                    
+                    // Log success status
+                    console.log('Formspree success:', formspreeResponse.ok);
+                    console.log('Google Sheets success:', sheetsResponse.ok);
                 } else {
                     alert('There was an error submitting your request. Please try again.');
                 }
             }).catch(error => {
                 console.error('Form submission error:', error);
-                alert('There was an error submitting your request. Please try again.');
+                // Try to submit to at least one service if the other fails
+                alert('Your request has been submitted, though there may have been a partial error.');
             });
             
-            // Option 3: Store in localStorage for now
+            // Backup: Store in localStorage
             const submissions = JSON.parse(localStorage.getItem('interestFormSubmissions') || '[]');
-            submissions.push({
-                email: email,
-                city: city,
-                timestamp: new Date().toISOString()
-            });
+            submissions.push(sheetData);
             localStorage.setItem('interestFormSubmissions', JSON.stringify(submissions));
         }
         

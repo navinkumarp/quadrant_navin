@@ -1195,10 +1195,8 @@
             // Log the data (you can see this in browser console)
             console.log('Form submitted:', { email, city });
             
-            // Option 1: Send to a webhook service like Formspree or Netlify Forms
-            // Example with fetch to a webhook:
-            /*
-            fetch('https://formspree.io/f/YOUR_FORM_ID', {
+            // Option 1: Send to Formspree webhook (now active)
+            fetch('https://formspree.io/f/maqdwkzb', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -1206,17 +1204,15 @@
                 }
             }).then(response => {
                 if (response.ok) {
-                    alert('Thank you! We\'ll notify you when the show comes to ' + city);
-                    event.target.reset();
+                    alert('Thank you for your interest! We\'ll notify you when the show comes to ' + city + '!');
+                    event.target.reset(); // Clear the form
                 } else {
-                    alert('There was an error. Please try again.');
+                    alert('There was an error submitting your request. Please try again.');
                 }
+            }).catch(error => {
+                console.error('Form submission error:', error);
+                alert('There was an error submitting your request. Please try again.');
             });
-            */
-            
-            // Option 2: Simple client-side handling (for now)
-            alert('Thank you for your interest! We\'ll notify you when the show comes to ' + city + '!');
-            event.target.reset(); // Clear the form
             
             // Option 3: Store in localStorage for now
             const submissions = JSON.parse(localStorage.getItem('interestFormSubmissions') || '[]');

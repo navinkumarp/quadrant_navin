@@ -1080,16 +1080,16 @@
             <div class="viral-quadrant">
                 <h3>INTEREST FORM</h3>
                 <p>Want this show in your city?</p>
-                <form class="interest-form" style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
-                    <input type="email" placeholder="Email" required style="padding: 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: #ffffff; font-size: 0.8rem;">
-                    <input type="text" placeholder="City" required style="padding: 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: #ffffff; font-size: 0.8rem;">
+                <form class="interest-form" onsubmit="handleInterestFormSubmit(event)" style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
+                    <input type="email" name="email" placeholder="Email" required style="padding: 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: #ffffff; font-size: 0.8rem;">
+                    <input type="text" name="city" placeholder="City" required style="padding: 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: #ffffff; font-size: 0.8rem;">
                     <button type="submit" class="cta-button" style="margin-top: 8px;">Submit</button>
                 </form>
             </div>
 
             <div class="viral-quadrant">
                 <h3>REVIEWS</h3>
-                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.75rem;">
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.75rem; align-items: center;">
                     <a href="https://www.indulgexpress.com/culture/2025/Jan/31/with-wit-and-warmth-navin-kumar-transforms-personal-stories-into-stand-up-that-resonates-with-all" target="_blank" class="cta-button">Indulge</a>
                     <a href="https://www.chennaitop10.com/today-chennai-news/quadrant-life-crisis-navin-kumar-live-12-july-2025-chennai/" target="_blank" class="cta-button">Chennai Top 10</a>
                     <a href="https://www.thehindu.com/entertainment/stand-up-comedian-navin-kumar-show-just-married/article68608218.ece" target="_blank" class="cta-button">The Hindu</a>
@@ -1182,5 +1182,56 @@
         <p>&copy; 2024 Navin Kumar. All rights reserved.</p>
         <p>Systems Thinking meets Stand-Up Comedy</p>
     </div>
+
+    <script>
+        function handleInterestFormSubmit(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Get form data
+            const formData = new FormData(event.target);
+            const email = formData.get('email');
+            const city = formData.get('city');
+            
+            // Log the data (you can see this in browser console)
+            console.log('Form submitted:', { email, city });
+            
+            // Option 1: Send to a webhook service like Formspree or Netlify Forms
+            // Example with fetch to a webhook:
+            /*
+            fetch('https://formspree.io/f/YOUR_FORM_ID', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert('Thank you! We\'ll notify you when the show comes to ' + city);
+                    event.target.reset();
+                } else {
+                    alert('There was an error. Please try again.');
+                }
+            });
+            */
+            
+            // Option 2: Simple client-side handling (for now)
+            alert('Thank you for your interest! We\'ll notify you when the show comes to ' + city + '!');
+            event.target.reset(); // Clear the form
+            
+            // Option 3: Store in localStorage for now
+            const submissions = JSON.parse(localStorage.getItem('interestFormSubmissions') || '[]');
+            submissions.push({
+                email: email,
+                city: city,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('interestFormSubmissions', JSON.stringify(submissions));
+        }
+        
+        // Function to retrieve stored submissions (call this in console to see data)
+        function getStoredSubmissions() {
+            return JSON.parse(localStorage.getItem('interestFormSubmissions') || '[]');
+        }
+    </script>
 </body>
 </html>

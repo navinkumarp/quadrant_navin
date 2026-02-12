@@ -558,6 +558,7 @@
             font-size: 1.1rem;
             margin-bottom: var(--space-sm);
             color: var(--coral);
+            text-align: center;
         }
 
         .corporate-quadrant p {
@@ -574,9 +575,11 @@
         }
 
         .corporate-list li {
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             padding-left: 12px;
             position: relative;
+            line-height: 1.4;
+            font-size: 0.9rem;
         }
 
         .corporate-list li:before {
@@ -589,6 +592,93 @@
         .corporate-quadrant:hover {
             background: rgba(255, 255, 255, 0.08);
             transform: scale(1.02);
+        }
+
+        /* Client Logos Grid */
+        .client-logos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 6px;
+            align-items: center;
+            justify-items: center;
+            width: 100%;
+            height: 200px;
+        }
+
+        .client-logo {
+            max-width: 80px;
+            max-height: 50px;
+            object-fit: contain;
+            filter: brightness(0.9) contrast(1.1);
+            transition: all 0.3s ease;
+        }
+
+        .client-logo:hover {
+            filter: brightness(1) contrast(1.2);
+            transform: scale(1.05);
+        }
+
+        .client-logo-text {
+            font-size: 0.75rem;
+            color: var(--electric-blue);
+            text-align: center;
+            padding: var(--space-xs);
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 4px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .client-logo-text:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--electric-blue);
+            transform: translateY(-1px);
+        }
+
+        /* Contact Buttons */
+        .contact-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--electric-blue);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: var(--space-xs);
+            text-align: center;
+            cursor: pointer;
+            font-family: var(--font-accent);
+        }
+
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .contact-btn span {
+            margin-right: 4px;
+        }
+
+        /* More Clients Text */
+        .more-clients {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--electric-blue);
+            font-style: italic;
+            margin-top: var(--space-xs);
+            margin-bottom: 0;
+            font-weight: 500;
         }
 
         /* My Identity Section */
@@ -961,6 +1051,30 @@
                 max-height: 45px;
             }
             
+            .client-logos-grid {
+                height: 160px;
+                gap: 4px;
+            }
+            
+            .client-logo {
+                max-width: 64px;
+                max-height: 40px;
+            }
+            
+            .client-logo-text {
+                font-size: 0.65rem;
+                padding: 4px;
+            }
+            
+            .contact-btn {
+                font-size: 0.75rem;
+                padding: 8px 12px;
+            }
+            
+            .more-clients {
+                font-size: 0.7rem;
+            }
+            
             .footer {
                 padding: var(--space-lg) var(--space-sm);
                 margin-top: var(--space-lg);
@@ -1030,6 +1144,30 @@
             .interest-form button {
                 font-size: 0.75rem;
                 padding: 6px;
+            }
+            
+            .client-logos-grid {
+                height: 140px;
+                gap: 2px;
+            }
+            
+            .client-logo {
+                max-width: 56px;
+                max-height: 36px;
+            }
+            
+            .client-logo-text {
+                font-size: 0.6rem;
+                padding: 3px;
+            }
+            
+            .contact-btn {
+                font-size: 0.7rem;
+                padding: 6px 10px;
+            }
+            
+            .more-clients {
+                font-size: 0.65rem;
             }
         }
 
@@ -1269,52 +1407,55 @@
         <h2 class="section-title">Corporate Shows & Consulting</h2>
         <div class="corporate-grid">
             <div class="corporate-quadrant">
-                <h3>EXPERIENCE</h3>
-                <p>9+ Years in Comedy</p>
-                <p>Performed for:</p>
+                <h3>ABOUT THE SHOW</h3>
                 <ul class="corporate-list">
-                    <li>Amazon</li>
-                    <li>ThoughtWorks</li>
-                    <li>Swiggy</li>
-                    <li>Navi</li>
+                    <li>Clean, corporate-friendly humor — no awkward moments for HR</li>
+                    <li>30–60 minute sets: Sharp, Clean & Relatable</li>
+                    <li>Signature "Presentation Comedy" format: Stand-up meets PowerPoint</li>
+                    <li>Endearing crowd work: No Sakth-Launda vibes</li>
+                    <li>Custom material based on your company's culture & inside jokes</li>
                 </ul>
-                <p>International tours: London, Singapore</p>
             </div>
 
             <div class="corporate-quadrant">
-                <h3>ABOUT THE SHOW</h3>
-                <p class="placeholder-text">[What corporates can expect: clean humor, customizable, 30-60 min sets]</p>
-                <p>Types of shows:</p>
+                <h3>WHEN & WHY HIRE ME</h3>
                 <ul class="corporate-list">
-                    <li>Annual events</li>
-                    <li>Team building</li>
-                    <li>Product launch</li>
+                    <li>10+ years in comedy</li>
+                    <li>2,000+ corporate, private & public shows</li>
+                    <li>Performed in Bangalore, Shillong, London & where not</li>
+                    <li>Clean but not lame comedy for geeky crowds</li>
+                    <li>Multi-cultural audience friendly — India & international</li>
+                    <li>Ex-Amazon turned comedian — I understand your jargons</li>
                 </ul>
-                <p class="placeholder-text">[More details]</p>
             </div>
 
             <div class="corporate-quadrant">
                 <h3>PAST CLIENTS</h3>
-                <p class="placeholder-text">[Logo grid]</p>
-                <ul class="corporate-list">
-                    <li>Amazon</li>
-                    <li>ThoughtWorks</li>
-                    <li>Swiggy</li>
-                    <li>Navi</li>
-                </ul>
-                <p class="placeholder-text">Or text list if no logos</p>
+                <div class="client-logos-grid">
+                    <img src="./client-logos/amazon.png" alt="Amazon" class="client-logo">
+                    <img src="./client-logos/google.png" alt="Google" class="client-logo">
+                    <img src="./client-logos/tw.png" alt="ThoughtWorks" class="client-logo">
+                    <img src="./client-logos/swiggy.png" alt="Swiggy" class="client-logo">
+                    <img src="./client-logos/info.png" alt="Atlassian" class="client-logo">
+                    <img src="./client-logos/hal.jpeg" alt="HAL India" class="client-logo">
+                    <img src="./client-logos/scapia.webp" alt="Scapia" class="client-logo">
+                    <img src="./client-logos/hyundai.jpg" alt="Hyundai" class="client-logo">
+                    <img src="./client-logos/itc logo.png" alt="ITC" class="client-logo">
+                </div>
+                <p class="more-clients">& 100 more</p>
             </div>
 
             <div class="corporate-quadrant">
-                <h3>CONTACT FORM</h3>
-                <div class="placeholder-text">
-                    Company: [input]<br>
-                    Name: [input]<br>
-                    Email: [input]<br>
-                    Phone: [input]<br>
-                    Event Type: [dropdown]<br>
-                    Message: [text]<br>
-                    [Submit]
+                <h3>CONTACT ME</h3>
+                <div class="contact-buttons">
+                    <button class="contact-btn email-btn" onclick="toggleContactInfo('email')">
+                        <span>📧</span>
+                        <span id="email-text">Mail Me</span>
+                    </button>
+                    <button class="contact-btn phone-btn" onclick="toggleContactInfo('phone')">
+                        <span>📞</span>
+                        <span id="phone-text">WhatsApp/Call Me</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1424,6 +1565,28 @@
         // Function to retrieve stored submissions (call this in console to see data)
         function getStoredSubmissions() {
             return JSON.parse(localStorage.getItem('interestFormSubmissions') || '[]');
+        }
+        
+        function toggleContactInfo(type) {
+            if (type === 'email') {
+                const emailText = document.getElementById('email-text');
+                if (emailText.textContent === 'Mail Me') {
+                    emailText.textContent = 'navinkumarp.91@gmail.com';
+                    emailText.style.color = 'var(--coral)';
+                } else {
+                    emailText.textContent = 'Mail Me';
+                    emailText.style.color = '';
+                }
+            } else if (type === 'phone') {
+                const phoneText = document.getElementById('phone-text');
+                if (phoneText.textContent === 'WhatsApp/Call Me') {
+                    phoneText.textContent = '+91-9740797808';
+                    phoneText.style.color = 'var(--coral)';
+                } else {
+                    phoneText.textContent = 'WhatsApp/Call Me';
+                    phoneText.style.color = '';
+                }
+            }
         }
     </script>
 </body>

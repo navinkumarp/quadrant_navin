@@ -839,31 +839,180 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            .hero-banner {
-                height: 300px;
+            body {
+                padding: var(--space-sm);
             }
-
+            
+            .page-header {
+                padding: var(--space-lg);
+                margin-bottom: var(--space-lg);
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .page-header .tagline {
+                font-size: 1rem;
+            }
+            
+            .hero-banner {
+                height: 250px;
+            }
+            
+            .breadcrumb-nav {
+                position: relative;
+                margin-bottom: var(--space-md);
+            }
+            
+            .breadcrumb {
+                flex-wrap: wrap;
+                gap: var(--space-xs);
+                justify-content: center;
+                padding: var(--space-sm);
+            }
+            
+            .breadcrumb-link {
+                font-size: 0.75rem;
+                padding: 6px 12px;
+            }
+            
+            .about-section {
+                margin: 0 var(--space-sm) var(--space-lg);
+                padding: var(--space-lg) var(--space-md);
+            }
+            
+            .about-section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .about-section p {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .social-section,
+            .viral-section,
+            .corporate-section,
+            .brand-section,
+            .identity-section {
+                margin: 0 var(--space-sm) var(--space-lg);
+                max-width: none;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+                margin-bottom: var(--space-md);
+            }
+            
             .social-grid,
             .viral-grid,
             .corporate-grid,
-            .brand-grid {
+            .brand-grid,
+            .identity-grid {
                 grid-template-columns: 1fr;
-                grid-template-rows: repeat(4, 1fr);
+                grid-template-rows: repeat(4, auto);
+                gap: var(--space-sm);
             }
-
+            
             .social-quadrant,
             .viral-quadrant,
             .corporate-quadrant,
-            .brand-quadrant {
-                min-height: 120px;
+            .brand-quadrant,
+            .identity-quadrant {
+                min-height: auto;
+                padding: var(--space-md);
             }
-
-            .hero-banner {
-                height: 300px;
+            
+            .social-header h3,
+            .viral-quadrant h3,
+            .corporate-quadrant h3,
+            .brand-quadrant h3,
+            .identity-quadrant h3 {
+                font-size: 1rem;
+                margin-bottom: var(--space-sm);
             }
-
-            body {
+            
+            .social-icon {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .social-stats {
+                font-size: 0.75rem;
+            }
+            
+            .social-cta,
+            .cta-button,
+            .cta-link {
+                font-size: 0.75rem;
+                padding: 6px 12px;
+            }
+            
+            .video-thumbnail {
+                max-width: 120px;
+            }
+            
+            .brand-logo {
+                max-width: 80px;
+                max-height: 60px;
+            }
+            
+            .footer {
+                padding: var(--space-lg) var(--space-sm);
+                margin-top: var(--space-lg);
+            }
+            
+            .footer p {
+                font-size: 0.85rem;
+            }
+        }
+        
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-header .tagline {
+                font-size: 0.9rem;
+            }
+            
+            .breadcrumb {
+                flex-direction: column;
+                align-items: center;
+                gap: var(--space-xs);
+            }
+            
+            .social-grid,
+            .viral-grid,
+            .corporate-grid,
+            .brand-grid,
+            .identity-grid {
+                gap: 8px;
+            }
+            
+            .social-quadrant,
+            .viral-quadrant,
+            .corporate-quadrant,
+            .brand-quadrant,
+            .identity-quadrant {
                 padding: var(--space-sm);
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+            }
+            
+            .interest-form {
+                gap: 6px;
+                margin-top: 8px;
+            }
+            
+            .interest-form input,
+            .interest-form button {
+                font-size: 0.75rem;
+                padding: 6px;
             }
         }
 

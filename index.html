@@ -910,9 +910,9 @@
             .corporate-grid,
             .brand-grid,
             .identity-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(4, auto);
-                gap: var(--space-sm);
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr;
+                gap: 1px;
             }
             
             .social-quadrant,
@@ -920,8 +920,8 @@
             .corporate-quadrant,
             .brand-quadrant,
             .identity-quadrant {
-                min-height: auto;
-                padding: var(--space-md);
+                min-height: 120px;
+                padding: var(--space-sm);
             }
             
             .social-header h3,
@@ -929,33 +929,33 @@
             .corporate-quadrant h3,
             .brand-quadrant h3,
             .identity-quadrant h3 {
-                font-size: 1rem;
-                margin-bottom: var(--space-sm);
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
             }
             
             .social-icon {
-                width: 20px;
-                height: 20px;
+                width: 16px;
+                height: 16px;
             }
             
             .social-stats {
-                font-size: 0.75rem;
+                font-size: 0.65rem;
             }
             
             .social-cta,
             .cta-button,
             .cta-link {
-                font-size: 0.75rem;
-                padding: 6px 12px;
+                font-size: 0.7rem;
+                padding: 4px 8px;
             }
             
             .video-thumbnail {
-                max-width: 120px;
+                max-width: 80px;
             }
             
             .brand-logo {
-                max-width: 80px;
-                max-height: 60px;
+                max-width: 60px;
+                max-height: 45px;
             }
             
             .footer {
@@ -989,7 +989,7 @@
             .corporate-grid,
             .brand-grid,
             .identity-grid {
-                gap: 8px;
+                gap: 1px;
             }
             
             .social-quadrant,
@@ -997,11 +997,12 @@
             .corporate-quadrant,
             .brand-quadrant,
             .identity-quadrant {
-                padding: var(--space-sm);
+                padding: 8px;
+                min-height: 100px;
             }
             
             .section-title {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
             }
             
             .interest-form {

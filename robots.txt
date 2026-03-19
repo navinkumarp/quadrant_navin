@@ -1,4 +1,33 @@
+# Robots.txt for Navin Kumar - Stand Up Comedian Website
+# Optimized for SEO crawling of English comedy content in Bengaluru, Chennai, Bangalore
+
 User-agent: *
 Allow: /
+Allow: /images/
+Allow: /client-logos/
+Allow: /*.css$
+Allow: /*.js$
 
-Sitemap: https://navin-kumar-comedian.github.io/sitemap.xml
+# Priority crawling for main sections
+Crawl-delay: 1
+
+# Specific instructions for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Sitemap locations
+Sitemap: https://quadrantcomedian.com/sitemap.xml
+
+# Additional meta information
+# Website: Stand-up comedian in Bengaluru, Chennai, Bangalore
+# Keywords: english comedian, corporate events, stand up comedy, navin kumar
+# Languages: English, Tamil
+# Geographic focus: Bengaluru, Chennai, Bangalore, India
